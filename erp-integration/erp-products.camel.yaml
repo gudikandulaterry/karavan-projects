@@ -5,3 +5,39 @@
     get:
       - id: get-332e
         to: direct:erp-products-route
+- route:
+    id: erp-products-route
+    from:
+      id: from-de38
+      uri: direct
+      parameters:
+        name: erp-products-route
+      steps:
+        - removeHeaders:
+            id: removeHeaders-e6ae
+            pattern: CamelHttp*
+        - to:
+            id: to-bfc4
+            description: call productsOdata service
+            uri: http
+            parameters:
+              httpUri: http://host.docker.internal:4004/odata/v4/simple-erp/Products
+              httpMethod: GET
+              proxyAuthMethod: Basic
+              proxyAuthUsername: "{{env:ERP_USER}}"
+              proxyAuthPassword: "{{env:ERP_USER}}"
+              throwExceptionOnFailure: true
+        - unmarshal:
+            id: unmarshal-a30d
+            json:
+              id: json-2320
+        - setBody:
+            id: setBody-4dc5
+            expression:
+              simple:
+                id: simple-f569
+                expression: ${body[value]}
+        - marshal:
+            id: marshal-88f3
+            json:
+              id: json-29a9
