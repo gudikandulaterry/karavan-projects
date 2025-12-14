@@ -23,6 +23,3 @@
               port: 5672
               routingKey: test-queue
               exchangeName: default
-              username: "{{env:MQ_USER}}"
-              password: "{{env:MQ_PASSWORD}}"
-              queues: test-queue
