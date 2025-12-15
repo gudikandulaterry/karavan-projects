@@ -6,6 +6,4 @@ services:
       - "8083:8080"
     networks:
       - karavan
-    environment:
-        ERP_USER=guest
-        ERP_PASSWORD=guest
+    
