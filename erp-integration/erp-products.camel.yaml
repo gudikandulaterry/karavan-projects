@@ -25,8 +25,8 @@
               httpUri: http://host.docker.internal:4004/odata/v4/simple-erp/Products
               httpMethod: GET
               throwExceptionOnFailure: true
-              authPassword: "{{env:ERP_PASSWORD}}"
-              authUsername: "{{env:ERP_USER}}"
+              authPassword: "{{ERP_PASSWORD}}"
+              authUsername: "{{ERP_USER}}"
               authMethodPriority: Basic
         - unmarshal:
             id: unmarshal-a30d
