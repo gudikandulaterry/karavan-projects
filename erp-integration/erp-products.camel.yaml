@@ -23,10 +23,11 @@
             parameters:
               httpUri: http://host.docker.internal:4004/odata/v4/simple-erp/Products
               httpMethod: GET
-              proxyAuthMethod: Basic
-              proxyAuthUsername: "{{env:ERP_USER}}"
               throwExceptionOnFailure: true
-              proxyAuthPassword: "{{env:ERP_PASSWORD}}"
+              authPassword: "{{env:ERP_PASSWORD}}"
+              authUsername: "{{env:ERP_USER}}"
+              authMethod: Basic
+              authMethodPriority: Basic
         - unmarshal:
             id: unmarshal-a30d
             json:
