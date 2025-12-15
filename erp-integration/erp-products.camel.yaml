@@ -15,6 +15,7 @@
       steps:
         - removeHeaders:
             id: removeHeaders-e6ae
+            description: remove all HTTP headers
             pattern: CamelHttp*
         - to:
             id: to-bfc4
@@ -26,7 +27,6 @@
               throwExceptionOnFailure: true
               authPassword: "{{env:ERP_PASSWORD}}"
               authUsername: "{{env:ERP_USER}}"
-              authMethod: Basic
               authMethodPriority: Basic
         - unmarshal:
             id: unmarshal-a30d
