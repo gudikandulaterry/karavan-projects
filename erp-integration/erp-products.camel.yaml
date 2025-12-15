@@ -25,8 +25,8 @@
               httpMethod: GET
               proxyAuthMethod: Basic
               proxyAuthUsername: "{{env:ERP_USER}}"
-              proxyAuthPassword: "{{env:ERP_USER}}"
               throwExceptionOnFailure: true
+              proxyAuthPassword: "{{env:ERP_PASSWORD}}"
         - unmarshal:
             id: unmarshal-a30d
             json:
