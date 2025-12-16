@@ -7,5 +7,5 @@ services:
     networks:
       - karavan
     environment:
-       ERP_USER:{{env:ERP_USER}}
-       ERP_PASSWORD:{{env:ERP_PASSWORD}}
+       ERP_USER:admin
+       ERP_PASSWORD:admin
