@@ -1,0 +1,46 @@
+- route:
+    id: route-5efd
+    nodePrefixId: route-f4d
+    from:
+      id: from-c607
+      uri: kamelet:spring-rabbitmq-source
+      parameters:
+        port: 5672
+        host: rabbitmq
+        queues: orders.requests
+        username: guest
+        exchangeName: orders.exchange
+        routingKey: orders.exchange
+        password: "{{rabbitmq.password}}"
+      steps:
+        - setHeader:
+            id: setHeader-ef58
+            name: correlationId
+            expression:
+              simple:
+                id: simple-9094
+                expression: ${header.CamelRabbitmqCorrelationId}
+        - transform:
+            id: transform-f366
+            expression:
+              simple:
+                id: simple-4548
+                expression: |
+                  {
+                    "orderAmount": ${body.totalAmount},
+                    "orderStatus_status": 10
+                  }
+        - setHeader:
+            id: setHeader-e6f8
+            name: Content-Type
+            expression:
+              constant:
+                id: constant-221d
+                expression: |
+                  application/json
+        - to:
+            id: to-0945
+            uri: http
+            parameters:
+              httpUri: http://erp:4004/odata/v4/simple-erp/Orders
+              httpMethod: POST
