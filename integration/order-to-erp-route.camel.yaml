@@ -9,10 +9,12 @@
         host: rabbitmq
         queues: orders.requests
         username: guest
-        exchangeName: orders.exchange
         routingKey: orders.exchange
         password: "{{rabbitmq.password}}"
+        exchangeName: orders.exchange
       steps:
+        - doTry:
+            id: doTry-9ffa
         - setHeader:
             id: setHeader-ef58
             name: correlationId
@@ -44,3 +46,36 @@
             parameters:
               httpUri: http://erp:4004/odata/v4/simple-erp/Orders
               httpMethod: POST
+        - setHeader:
+            id: setHeader-f032
+            name: correlationId
+            expression:
+              simple:
+                id: simple-ee7f
+                expression: |
+                  ${header.correlationId}
+        - to:
+            id: to-d457
+            uri: kamelet:spring-rabbitmq-sink
+            parameters:
+              host: rabbitmq
+              port: 5672
+              queues: orders.responses
+              exchangeName: amq.direct
+              routingKey: orders.responses
+        - doCatch:
+            id: doCatch-7d2e
+            onWhen:
+              id: onWhen-f952
+              expression:
+                simple:
+                  id: simple-cc33
+                  expression: java.lang.Exception
+            steps:
+              - to:
+                  id: to-dfd0
+                  uri: kamelet:spring-rabbitmq-sink
+                  parameters:
+                    port: 5672
+                    host: rabbitmq
+                    queues: orders.dlq
