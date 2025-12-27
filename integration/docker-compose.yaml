@@ -6,3 +6,8 @@ services:
       - "8084:8080"
     networks:
       - karavan
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: guest
+      RABBITMQ_PASSWORD: guest
