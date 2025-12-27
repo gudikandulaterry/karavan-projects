@@ -8,10 +8,10 @@
         port: 5672
         host: rabbitmq
         queues: orders.requests
-        username: guest
         routingKey: orders.exchange
         exchangeName: orders.exchange
-        password: "{{guest}}"
+        username: "{{RABBITMQ_USERNAME}}"
+        password: "{{RABBITMQ_PASSWORD}}"
       steps:
         - doTry:
             id: doTry-9ffa
