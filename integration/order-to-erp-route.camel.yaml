@@ -10,8 +10,8 @@
         queues: orders.requests
         username: guest
         routingKey: orders.exchange
-        password: "{{rabbitmq.password}}"
         exchangeName: orders.exchange
+        password: "{{guest}}"
       steps:
         - doTry:
             id: doTry-9ffa
