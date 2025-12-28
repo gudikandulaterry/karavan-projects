@@ -10,8 +10,8 @@
         queues: orders.requests
         routingKey: orders.exchange
         exchangeName: orders.exchange
-        username: "{{RABBITMQ_USERNAME}}"
-        password: "{{RABBITMQ_PASSWORD}}"
+        username: guest
+        password: guest
       steps:
         - doTry:
             id: doTry-9ffa
