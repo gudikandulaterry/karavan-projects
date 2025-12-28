@@ -71,6 +71,8 @@
                 simple:
                   id: simple-cc33
                   expression: java.lang.Exception
+            exceptions:
+              - java.lang.Exception
             steps:
               - to:
                   id: to-dfd0
