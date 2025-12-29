@@ -32,9 +32,7 @@
             expression:
               constant:
                 id: constant-8a49
-                expression: |+
-                  {"orderAmount":"${body[totalAmount]}","orderStatus_status":10}
-
+                expression: "\"orderAmount\":\"${body[totalAmount]}\",\"orderStatus_status\":10"
         - setHeader:
             id: setHeader-e6f8
             name: Content-Type
