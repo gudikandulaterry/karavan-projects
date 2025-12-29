@@ -30,11 +30,11 @@
         - setBody:
             id: setBody-0f99
             expression:
-              simple:
-                id: simple-dbb3
-                expression: >
-                  {"orderAmount": ${body[totalAmount]}, "orderStatus_status":
-                  10}
+              constant:
+                id: constant-8a49
+                expression: |+
+                  {"orderAmount":"${body[totalAmount]}","orderStatus_status":10}
+
         - setHeader:
             id: setHeader-e6f8
             name: Content-Type
