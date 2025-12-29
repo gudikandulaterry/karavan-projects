@@ -22,16 +22,11 @@
               simple:
                 id: simple-9094
                 expression: ${header.CamelRabbitmqCorrelationId}
-        - unmarshal:
-            id: unmarshal-904d
-            json:
-              id: json-e14b
-              library: Jackson
         - setBody:
             id: setBody-0f99
             expression:
-              constant:
-                id: constant-8a49
+              simple:
+                id: simple-7f54
                 expression: "\"orderAmount\":\"${body[totalAmount]}\",\"orderStatus_status\":10"
         - setHeader:
             id: setHeader-e6f8
@@ -47,14 +42,6 @@
             parameters:
               httpUri: http://erp:4004/odata/v4/simple-erp/Orders
               httpMethod: POST
-        - setHeader:
-            id: setHeader-f032
-            name: correlationId
-            expression:
-              simple:
-                id: simple-ee7f
-                expression: |
-                  ${header.correlationId}
         - to:
             id: to-d457
             uri: kamelet:spring-rabbitmq-sink
