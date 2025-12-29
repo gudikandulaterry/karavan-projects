@@ -22,11 +22,6 @@
               simple:
                 id: simple-9094
                 expression: ${header.CamelRabbitmqCorrelationId}
-        - setBody:
-            id: setBody-0f99
-            expression:
-              simple:
-                id: simple-7f54
         - setHeader:
             id: setHeader-e6f8
             name: Content-Type
@@ -39,8 +34,8 @@
             id: to-0945
             uri: http
             parameters:
-              httpUri: http://erp:4004/odata/v4/simple-erp/Orders
               httpMethod: POST
+              httpUri: http://erp:4004/odata/v4/simple-erp/Orders
         - to:
             id: to-d457
             uri: kamelet:spring-rabbitmq-sink
