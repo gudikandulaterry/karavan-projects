@@ -45,13 +45,14 @@
                     queues: orders.responses
                     routingKey: orders.responses
         - doCatch:
-            "0":
-              exception: java.lang.Exception
-              steps:
-                - to:
-                    uri: kamelet:spring-rabbitmq-sink
-                    parameters:
-                      host: rabbitmq
-                      port: 5672
-                      queues: orders.dlq
-            id: doCatch-d27d
+            id: doCatch-b569
+            exceptions:
+              - java.lang.Exception
+    steps:
+      - undefined:
+          to:
+            uri: kamelet:spring-rabbitmq-sink
+            parameters:
+              host: rabbitmq
+              port: 5672
+              queues: orders.dlq
