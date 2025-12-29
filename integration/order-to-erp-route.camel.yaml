@@ -29,7 +29,7 @@
                 id: simple-4548
                 expression: |
                   {
-                    "orderAmount": ${body.totalAmount},
+                    "orderAmount": ${jsonpath("$.totalAmount")},
                     "orderStatus_status": 10
                   }
         - setHeader:
@@ -65,14 +65,14 @@
               routingKey: orders.responses
         - doCatch:
             id: doCatch-7d2e
+            exception:
+              - java.lang.Exception
             onWhen:
               id: onWhen-f952
               expression:
                 simple:
                   id: simple-cc33
                   expression: java.lang.Exception
-            exceptions:
-              - java.lang.Exception
             steps:
               - to:
                   id: to-dfd0
