@@ -27,11 +27,11 @@
             json:
               id: json-e14b
               library: Jackson
-        - transform:
-            id: transform-f366
+        - setBody:
+            id: setBody-0f99
             expression:
               simple:
-                id: simple-4548
+                id: simple-dbb3
                 expression: >
                   {"orderAmount": ${body[totalAmount]}, "orderStatus_status":
                   10}
