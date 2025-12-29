@@ -24,6 +24,7 @@
                       parameters:
                         host: rabbitmq
                         port: 5672
+                        exchangeName: amq.direct
                         queues: orders.dlq
             steps:
               - setHeader:
