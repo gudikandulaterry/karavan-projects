@@ -22,6 +22,11 @@
               simple:
                 id: simple-9094
                 expression: ${header.CamelRabbitmqCorrelationId}
+        - unmarshal:
+            id: unmarshal-904d
+            json:
+              id: json-e14b
+              library: Jackson
         - transform:
             id: transform-f366
             expression:
@@ -29,7 +34,7 @@
                 id: simple-4548
                 expression: |
                   {
-                    "orderAmount": ${jsonpath("$.totalAmount")},
+                    "orderAmount": ${body[totalAmount]},
                     "orderStatus_status": 10
                   }
         - setHeader:
