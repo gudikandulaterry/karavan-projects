@@ -14,6 +14,17 @@
       steps:
         - doTry:
             id: doTry-7270
+            doCatch:
+              - id: doCatch-05dc
+                exception: java.lang.Exception
+                steps:
+                  - to:
+                      id: to-f653
+                      uri: kamelet:spring-rabbitmq-sink
+                      parameters:
+                        host: rabbitmq
+                        port: 5672
+                        queues: orders.dlq
             steps:
               - setHeader:
                   id: setHeader-7a8b
@@ -44,15 +55,3 @@
                     exchangeName: amq.direct
                     queues: orders.responses
                     routingKey: orders.responses
-        - doCatch:
-            id: doCatch-b569
-            exceptions:
-              - java.lang.Exception
-    steps:
-      - undefined:
-          to:
-            uri: kamelet:spring-rabbitmq-sink
-            parameters:
-              host: rabbitmq
-              port: 5672
-              queues: orders.dlq
