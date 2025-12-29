@@ -1,12 +1,11 @@
 - route:
     id: route-5efd
-    nodePrefixId: route-f4d
     from:
-      id: from-c607
+      id: from-fbf6
       uri: kamelet:spring-rabbitmq-source
       parameters:
-        port: 5672
         host: rabbitmq
+        port: 5672
         queues: orders.requests
         routingKey: orders.exchange
         exchangeName: orders.exchange
@@ -14,52 +13,45 @@
         password: guest
       steps:
         - doTry:
-            id: doTry-9ffa
-        - setHeader:
-            id: setHeader-ef58
-            name: correlationId
-            expression:
-              simple:
-                id: simple-9094
-                expression: ${header.CamelRabbitmqCorrelationId}
-        - setHeader:
-            id: setHeader-e6f8
-            name: Content-Type
-            expression:
-              constant:
-                id: constant-221d
-                expression: |
-                  application/json
-        - to:
-            id: to-0945
-            uri: http
-            parameters:
-              httpMethod: POST
-              httpUri: http://erp:4004/odata/v4/simple-erp/Orders
-        - to:
-            id: to-d457
-            uri: kamelet:spring-rabbitmq-sink
-            parameters:
-              host: rabbitmq
-              port: 5672
-              queues: orders.responses
-              exchangeName: amq.direct
-              routingKey: orders.responses
-        - doCatch:
-            id: doCatch-7d2e
-            exception:
-              - java.lang.Exception
-            onWhen:
-              id: onWhen-f952
-              expression:
-                simple:
-                  id: simple-cc33
-                  expression: java.lang.Exception
+            id: doTry-7270
             steps:
+              - setHeader:
+                  id: setHeader-7a8b
+                  name: correlationId
+                  expression:
+                    simple:
+                      id: simple-78d2
+                      expression: ${header.CamelRabbitmqCorrelationId}
+              - setHeader:
+                  id: setHeader-eeec
+                  name: Content-Type
+                  expression:
+                    constant:
+                      id: constant-bcf0
+                      expression: application/json
               - to:
-                  id: to-dfd0
+                  id: to-40d7
+                  uri: http
+                  parameters:
+                    httpMethod: POST
+                    httpUri: http://erp:4004/odata/v4/simple-erp/Orders
+              - to:
+                  id: to-90e9
                   uri: kamelet:spring-rabbitmq-sink
                   parameters:
-                    port: 5672
                     host: rabbitmq
-                    queues: orders.dlq
+                    port: 5672
+                    exchangeName: amq.direct
+                    queues: orders.responses
+                    routingKey: orders.responses
+        - doCatch:
+            "0":
+              exception: java.lang.Exception
+              steps:
+                - to:
+                    uri: kamelet:spring-rabbitmq-sink
+                    parameters:
+                      host: rabbitmq
+                      port: 5672
+                      queues: orders.dlq
+            id: doCatch-d27d
