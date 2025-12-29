@@ -32,11 +32,9 @@
             expression:
               simple:
                 id: simple-4548
-                expression: |
-                  {
-                    "orderAmount": ${body[totalAmount]},
-                    "orderStatus_status": 10
-                  }
+                expression: >
+                  {"orderAmount": ${body[totalAmount]}, "orderStatus_status":
+                  10}
         - setHeader:
             id: setHeader-e6f8
             name: Content-Type
