@@ -26,6 +26,7 @@
                         port: 5672
                         exchangeName: amq.direct
                         queues: orders.dlq
+                        routingKey: orders.requests
             steps:
               - setHeader:
                   id: setHeader-7a8b
