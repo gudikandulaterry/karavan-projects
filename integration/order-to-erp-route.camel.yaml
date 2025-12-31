@@ -7,10 +7,9 @@
         host: rabbitmq
         port: 5672
         queues: orders.requests
-        routingKey: orders.exchange
+        routingKey: orders.requests
         exchangeName: orders.exchange
-        username: guest
-        password: guest
+        password: "{{guest}}"
       steps:
         - doTry:
             id: doTry-7270
