@@ -10,6 +10,7 @@
         routingKey: orders.requests
         exchangeName: orders.exchange
         password: "{{guest}}"
+        autoDeclare: false
       steps:
         - doTry:
             id: doTry-7270
