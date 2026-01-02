@@ -56,3 +56,4 @@
                     queues: orders.responses
                     routingKey: orders.responses
                     exchangeName: orders.exchange
+                    autoDeclareProducer: true
