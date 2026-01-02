@@ -47,6 +47,12 @@
                   parameters:
                     httpMethod: POST
                     httpUri: http://erp:4004/odata/v4/simple-erp/Orders
+              - setBody:
+                  id: setBody-92e7
+                  expression:
+                    simple:
+                      id: simple-a3ec
+                      expression: ${body}
               - to:
                   id: to-90e9
                   uri: kamelet:spring-rabbitmq-sink
