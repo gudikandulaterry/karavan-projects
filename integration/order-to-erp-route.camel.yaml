@@ -41,6 +41,9 @@
                     constant:
                       id: constant-bcf0
                       expression: application/json
+              - log:
+                  id: log-984a
+                  message: "ERP response received: ${body}"
               - to:
                   id: to-40d7
                   uri: http
