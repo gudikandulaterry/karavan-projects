@@ -34,6 +34,19 @@
                     simple:
                       id: simple-78d2
                       expression: ${body[correlationId]}
+              - setBody:
+                  id: setBody-7855
+                  expression:
+                    simple:
+                      id: simple-5d48
+                      expression: |-
+                        {
+                          "customer_ID": "${body[customer_ID]}",
+                          "orderDate": "${date:now:yyyy-MM-dd}",
+                          "orderAmount": ${body[totalAmount]},
+                          "currency_code": "${body[currency_code]}",
+                          "items": ${body[items]}
+                        }
               - setHeader:
                   id: setHeader-eeec
                   name: Content-Type
