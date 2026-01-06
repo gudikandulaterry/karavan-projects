@@ -33,7 +33,7 @@
                   expression:
                     simple:
                       id: simple-78d2
-                      expression: ${header.CamelRabbitmqCorrelationId}
+                      expression: ${body[correlationId]}
               - setHeader:
                   id: setHeader-eeec
                   name: Content-Type
@@ -41,15 +41,23 @@
                     constant:
                       id: constant-bcf0
                       expression: application/json
-              - log:
-                  id: log-984a
-                  message: "ERP response received: ${body}"
               - to:
                   id: to-40d7
                   uri: http
                   parameters:
                     httpMethod: POST
                     httpUri: http://erp:4004/odata/v4/simple-erp/Orders
+              - log:
+                  id: log-dcd1
+                  message: "ERP response received: ${body}"
+              - setBody:
+                  id: setBody-353e
+                  expression:
+                    simple:
+                      id: simple-0f34
+                      expression: >-
+                        {"correlationId": "${header.correlationId}",
+                        "erpResponse": ${body}}
               - to:
                   id: to-90e9
                   uri: kamelet:spring-rabbitmq-sink
