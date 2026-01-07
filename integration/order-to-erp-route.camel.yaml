@@ -1,45 +1,53 @@
 - route:
-    id: route-5efd
+    id: order-processing-route
     from:
-      id: from-fbf6
+      id: from-orders
       uri: kamelet:spring-rabbitmq-source
       parameters:
-        host: rabbitmq
-        port: 5672
+        host: "{{rabbitmq.host}}"
+        port: "{{rabbitmq.port}}"
+        username: "{{rabbitmq.username}}"
+        password: "{{rabbitmq.password}}"
+        exchangeName: amq.direct
         queues: orders.requests
         routingKey: orders.requests
-        exchangeName: orders.exchange
         autoDeclare: false
-        password: "{{guest}}"
       steps:
         - doTry:
-            id: doTry-7270
+            id: doTry-orders
             doCatch:
-              - id: doCatch-05dc
+              - id: catch-all
                 exception: java.lang.Exception
                 steps:
+                  - log:
+                      id: log-5eca
+                      message: "Error processing order: ${exception.message}"
                   - to:
-                      id: to-f653
+                      id: send-to-dlq
                       uri: kamelet:spring-rabbitmq-sink
                       parameters:
-                        host: rabbitmq
-                        port: 5672
+                        host: "{{rabbitmq.host}}"
+                        port: "{{rabbitmq.port}}"
+                        username: "{{rabbitmq.username}}"
+                        password: "{{rabbitmq.password}}"
                         exchangeName: amq.direct
                         queues: orders.dlq
+                        routingKey: orders.dlq
+                        autoDeclareProducer: false
             steps:
               - setHeader:
-                  id: setHeader-7a8b
-                  name: correlationId
+                  id: set-correlation
+                  name: CamelCorrelationId
                   expression:
                     simple:
-                      id: simple-78d2
+                      id: simple-7e1f
                       expression: ${body.correlationId}
               - setBody:
-                  id: setBody-7855
+                  id: transform-order
                   expression:
                     simple:
-                      id: simple-5d48
-                      expression: |-
+                      id: simple-c2b9
+                      expression: |
                         {
                           "customer_ID": "${body.customer_ID}",
                           "orderDate": "${date:now:yyyy-MM-dd}",
@@ -48,36 +56,40 @@
                           "items": ${body.items}
                         }
               - setHeader:
-                  id: setHeader-eeec
+                  id: set-content-type
                   name: Content-Type
                   expression:
                     constant:
-                      id: constant-bcf0
+                      id: constant-5d53
                       expression: application/json
               - to:
-                  id: to-40d7
+                  id: call-erp
                   uri: http
                   parameters:
                     httpMethod: POST
                     httpUri: http://erp:4004/odata/v4/simple-erp/Orders
               - log:
-                  id: log-dcd1
+                  id: log-erp-response
                   message: "ERP response received: ${body}"
               - setBody:
-                  id: setBody-353e
+                  id: build-response
                   expression:
                     simple:
-                      id: simple-0f34
-                      expression: >-
-                        {"correlationId": "${header.correlationId}",
-                        "erpResponse": ${body}}
+                      id: simple-7b91
+                      expression: |
+                        {
+                          "correlationId": "${header.CamelCorrelationId}",
+                          "erpResponse": ${body}
+                        }
               - to:
-                  id: to-90e9
+                  id: send-response
                   uri: kamelet:spring-rabbitmq-sink
                   parameters:
-                    host: rabbitmq
-                    port: 5672
+                    host: "{{rabbitmq.host}}"
+                    port: "{{rabbitmq.port}}"
+                    username: "{{rabbitmq.username}}"
+                    password: "{{rabbitmq.password}}"
+                    exchangeName: amq.direct
                     queues: orders.responses
                     routingKey: orders.responses
-                    exchangeName: orders.exchange
                     autoDeclareProducer: false
