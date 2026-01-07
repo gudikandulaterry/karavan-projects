@@ -20,7 +20,7 @@
                 exception: java.lang.Exception
                 steps:
                   - log:
-                      id: log-8f30
+                      id: log-3194
                       message: >-
                         Error processing order ${header.CamelCorrelationId}:
                         ${exception.message}
@@ -42,13 +42,13 @@
                   name: CamelCorrelationId
                   expression:
                     simple:
-                      id: simple-903f
+                      id: simple-2f93
                       expression: ${body.correlationId}
               - setBody:
                   id: transform-order
                   expression:
                     simple:
-                      id: simple-2b19
+                      id: simple-94f6
                       expression: |
                         {
                           "customer_ID": "${body.customer_ID}",
@@ -62,7 +62,7 @@
                   name: Content-Type
                   expression:
                     constant:
-                      id: constant-2dfc
+                      id: constant-ac31
                       expression: application/json
               - to:
                   id: call-erp
@@ -81,7 +81,7 @@
                   id: build-response
                   expression:
                     simple:
-                      id: simple-4c63
+                      id: simple-9a16
                       expression: |
                         {
                           "correlationId": "${header.CamelCorrelationId}",
