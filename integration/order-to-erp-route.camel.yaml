@@ -9,8 +9,8 @@
         queues: orders.requests
         routingKey: orders.requests
         exchangeName: orders.exchange
-        password: "{{guest}}"
         autoDeclare: false
+        password: "{{guest}}"
       steps:
         - doTry:
             id: doTry-7270
@@ -33,7 +33,7 @@
                   expression:
                     simple:
                       id: simple-78d2
-                      expression: ${body[correlationId]}
+                      expression: ${body.correlationId}
               - setBody:
                   id: setBody-7855
                   expression:
@@ -41,11 +41,11 @@
                       id: simple-5d48
                       expression: |-
                         {
-                          "customer_ID": "${body[customer_ID]}",
+                          "customer_ID": "${body.customer_ID}",
                           "orderDate": "${date:now:yyyy-MM-dd}",
-                          "orderAmount": ${body[totalAmount]},
-                          "currency_code": "${body[currency_code]}",
-                          "items": ${body[items]}
+                          "orderAmount": ${body.totalAmount},
+                          "currency_code": "${body.currency_code}",
+                          "items": ${body.items}
                         }
               - setHeader:
                   id: setHeader-eeec
