@@ -20,8 +20,10 @@
                 exception: java.lang.Exception
                 steps:
                   - log:
-                      id: log-5eca
-                      message: "Error processing order: ${exception.message}"
+                      id: log-8f30
+                      message: >-
+                        Error processing order ${header.CamelCorrelationId}:
+                        ${exception.message}
                   - to:
                       id: send-to-dlq
                       uri: kamelet:spring-rabbitmq-sink
@@ -40,13 +42,13 @@
                   name: CamelCorrelationId
                   expression:
                     simple:
-                      id: simple-7e1f
+                      id: simple-903f
                       expression: ${body.correlationId}
               - setBody:
                   id: transform-order
                   expression:
                     simple:
-                      id: simple-c2b9
+                      id: simple-2b19
                       expression: |
                         {
                           "customer_ID": "${body.customer_ID}",
@@ -60,7 +62,7 @@
                   name: Content-Type
                   expression:
                     constant:
-                      id: constant-5d53
+                      id: constant-2dfc
                       expression: application/json
               - to:
                   id: call-erp
@@ -68,14 +70,18 @@
                   parameters:
                     httpMethod: POST
                     httpUri: http://erp:4004/odata/v4/simple-erp/Orders
+                    connectTimeout: 5000
+                    socketTimeout: 10000
               - log:
                   id: log-erp-response
-                  message: "ERP response received: ${body}"
+                  message: >-
+                    ERP response received for order
+                    ${header.CamelCorrelationId}: ${body}
               - setBody:
                   id: build-response
                   expression:
                     simple:
-                      id: simple-7b91
+                      id: simple-4c63
                       expression: |
                         {
                           "correlationId": "${header.CamelCorrelationId}",
