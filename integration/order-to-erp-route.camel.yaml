@@ -95,7 +95,7 @@
                     port: "{{rabbitmq.port}}"
                     username: "{{rabbitmq.username}}"
                     password: "{{rabbitmq.password}}"
-                    exchangeName: amq.direct
+                    exchangeName: orders.exchange
                     queues: orders.responses
                     routingKey: orders.responses
                     autoDeclareProducer: false
