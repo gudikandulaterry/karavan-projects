@@ -29,6 +29,22 @@
                       message: >-
                         Error processing order ${header.CamelCorrelationId}:
                         ${exception.message}
+                  - setBody:
+                      id: setBody-32a2
+                      expression:
+                        simple:
+                          id: simple-9538
+                          expression: |
+                            {
+                                      "correlationId": "${header.CamelCorrelationId}",
+                                      "status": "ERROR",
+                                      "message": "${exception.message}"
+                                    }
+                  - marshal:
+                      id: marshal-0d04
+                      json:
+                        id: json-f29c
+                        library: Jackson
                   - to:
                       id: send-to-dlq
                       uri: kamelet:spring-rabbitmq-sink
@@ -92,6 +108,11 @@
                           "correlationId": "${header.CamelCorrelationId}",
                           "erpResponse": ${body}
                         }
+              - marshal:
+                  id: marshal-e6b5
+                  json:
+                    id: json-7636
+                    library: Jackson
               - to:
                   id: send-response
                   uri: kamelet:spring-rabbitmq-sink
