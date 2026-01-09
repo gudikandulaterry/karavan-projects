@@ -13,6 +13,11 @@
         routingKey: orders.requests
         autoDeclare: false
       steps:
+        - unmarshal:
+            id: unmarshal-c35a
+            json:
+              id: json-93cd
+              library: Jackson
         - doTry:
             id: doTry-orders
             doCatch:
