@@ -90,9 +90,9 @@
                   uri: http
                   parameters:
                     httpMethod: POST
-                    httpUri: http://erp:4004/odata/v4/simple-erp/Orders
                     connectTimeout: 5000
                     socketTimeout: 10000
+                    httpUri: "httpUri: http://simple-erp:4004/odata/v4/simple-erp/Orders"
               - log:
                   id: log-erp-response
                   message: >-
