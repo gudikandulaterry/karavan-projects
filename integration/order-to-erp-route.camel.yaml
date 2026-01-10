@@ -36,10 +36,10 @@
                           id: simple-9538
                           expression: |
                             {
-                                      "correlationId": "${header.CamelCorrelationId}",
-                                      "status": "ERROR",
-                                      "message": "${exception.message}"
-                                    }
+                              "correlationId": "${header.CamelCorrelationId}",
+                              "status": "ERROR",
+                              "message": "${exception.message}"
+                            }
                   - marshal:
                       id: marshal-0d04
                       json:
@@ -64,7 +64,7 @@
                   expression:
                     simple:
                       id: simple-2f93
-                      expression: ${body.correlationId}
+                      expression: ${body[correlationId]}
               - setBody:
                   id: transform-order
                   expression:
@@ -72,11 +72,11 @@
                       id: simple-94f6
                       expression: |
                         {
-                          "customer_ID": "${body.customer.id}",
+                          "customer_ID": "${body[customer][id]}",
                           "orderDate": "${date:now:yyyy-MM-dd}",
-                          "orderAmount": ${body.totalAmount},
-                          "currency_code": "${body.currency_code}",
-                          "items": ${body.items}
+                          "orderAmount": ${body[totalAmount]},
+                          "currency_code": "${body[currency_code]}",
+                          "items": ${body[items]}
                         }
               - setHeader:
                   id: set-content-type
