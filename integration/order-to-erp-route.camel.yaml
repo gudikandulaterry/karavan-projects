@@ -53,10 +53,10 @@
                         port: "{{rabbitmq.port}}"
                         username: "{{rabbitmq.username}}"
                         password: "{{rabbitmq.password}}"
-                        exchangeName: amq.direct
                         queues: orders.dlq
                         routingKey: orders.dlq
                         autoDeclareProducer: false
+                        exchangeName: orders.exchange
             steps:
               - setHeader:
                   id: set-correlation
@@ -72,7 +72,7 @@
                       id: simple-94f6
                       expression: |
                         {
-                          "customer_ID": "${body.customer_ID}",
+                          "customer_ID": "${body.customer_id}",
                           "orderDate": "${date:now:yyyy-MM-dd}",
                           "orderAmount": ${body.totalAmount},
                           "currency_code": "${body.currency_code}",
