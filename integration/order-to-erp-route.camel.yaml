@@ -85,6 +85,13 @@
                     constant:
                       id: constant-ac31
                       expression: application/json
+              - setHeader:
+                  id: setHeader-84ac
+                  name: Authorization
+                  expression:
+                    simple:
+                      id: simple-e8b6
+                      expression: Basic {{erp.basicAuth}}
               - to:
                   id: call-erp
                   uri: http
