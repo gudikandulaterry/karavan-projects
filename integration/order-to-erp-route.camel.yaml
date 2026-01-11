@@ -93,7 +93,6 @@
                     connectTimeout: 5000
                     socketTimeout: 10000
                     httpUri: >-
-                      httpUri:
                       http://host.docker.internal:4004/odata/v4/simple-erp/Orders
               - log:
                   id: log-erp-response
