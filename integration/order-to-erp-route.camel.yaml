@@ -70,13 +70,12 @@
                   expression:
                     simple:
                       id: simple-94f6
-                      expression: |
+                      expression: |-
                         {
                           "customer_ID": "${body[customer][id]}",
                           "orderDate": "${date:now:yyyy-MM-dd}",
                           "orderAmount": ${body[totalAmount]},
-                          "currency_code": "${body[currency_code]}",
-                          "items": ${body[items]}
+                          "currency_code": "${body[currency_code]}"
                         }
               - setHeader:
                   id: set-content-type
