@@ -11,7 +11,7 @@
         exchangeName: orders.exchange
         queues: orders.requests
         routingKey: orders.requests
-        autoDeclare: false
+        autoDeclare: true
       steps:
         - unmarshal:
             id: unmarshal-c35a
@@ -55,7 +55,7 @@
                         password: "{{rabbitmq.password}}"
                         queues: orders.dlq
                         routingKey: orders.dlq
-                        autoDeclareProducer: false
+                        autoDeclareProducer: true
                         exchangeName: orders.exchange
             steps:
               - setHeader:
@@ -131,4 +131,4 @@
                     exchangeName: orders.exchange
                     queues: orders.responses
                     routingKey: orders.responses
-                    autoDeclareProducer: false
+                    autoDeclareProducer: true
