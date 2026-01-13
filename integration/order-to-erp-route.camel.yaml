@@ -98,9 +98,7 @@
                     httpMethod: POST
                     connectTimeout: 5000
                     socketTimeout: 10000
-                    httpUri: >-
-                      http://host.docker.into:
-                      "http://simple-erp:4004/odata/v4/simple-erp/Orders"ternal:4004/odata/v4/simple-erp/Orders
+                    httpUri: http://simple-erp:4004/odata/v4/simple-erp/Orders
               - log:
                   id: log-erp-response
                   message: >-
