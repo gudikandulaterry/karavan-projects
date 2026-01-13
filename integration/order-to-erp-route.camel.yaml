@@ -75,8 +75,14 @@
                                 "customer_ID": "${body[customer][id]}",
                                 "orderDate": "${date:now:yyyy-MM-dd}",
                                 "orderAmount": ${body[totalAmount]},
-                                "currency_code": "${body[currency_code]}",
-                                "items": ${body[items]}
+                                "currency_code": "EUR",
+                                "items": [
+                                  {
+                                    "product_ID": "${body[items][0][productId]}",
+                                    "quantity": ${body[items][0][quantity]},
+                                    "itemAmount": ${body[items][0][price]}
+                                  }
+                                ]
                               }
               - log:
                   id: log-6546
