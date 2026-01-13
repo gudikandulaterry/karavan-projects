@@ -138,6 +138,6 @@
                     username: "{{rabbitmq.username}}"
                     password: "{{rabbitmq.password}}"
                     exchangeName: orders.exchange
-                    queues: orders.responses
-                    routingKey: orders.responses
+                    queues: orders.response
+                    routingKey: orders.response
                     autoDeclareProducer: false
