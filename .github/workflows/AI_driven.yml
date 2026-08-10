@@ -1,0 +1,19 @@
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run tests / build
+        run: |
+          # your normal build steps here
+          echo "Build and tests..."
+
+      - name: Generate feature matrix
+        run: |
+          python generate_features.py
+
+      - name: Run AI risk prediction
+        id: ai_risk
+        run: |
+          python predict_risk.py
